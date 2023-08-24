@@ -9,11 +9,13 @@ import {
   AccordionItem,
   Image,
   Chip,
+  Snippet,
 } from "@nextui-org/react";
 import "boxicons/css/boxicons.min.css";
 import { define_account_name } from "@/lib/define_account_name";
 import { gen_store_img_link_local, store_full_name } from "@/lib/store_func";
 import { SP } from "next/dist/shared/lib/utils";
+import Head from "next/head";
 
 function count_order(store_object: any) {
   let total = 0;
@@ -55,6 +57,9 @@ export default function IndexPage({
 
   return (
     <>
+      <Head>
+        <title>주문 확인</title>
+      </Head>
       <div className="m-3">
         <Spacer y={1} />
         <div id="top" className="flex flex-row items-center gap-3">
@@ -193,9 +198,14 @@ export default function IndexPage({
                                     🎁
                                   </Chip>
                                   <Spacer x={1} />
-                                  <p className="text-sm">
+                                  <Snippet
+                                    size="sm"
+                                    variant="bordered"
+                                    className="h-7"
+                                    hideSymbol
+                                  >
                                     {dat["vendorItemName"]}
-                                  </p>
+                                  </Snippet>
                                   <Spacer x={0.5} />
                                 </div>
                                 <Spacer y={2} />
@@ -259,6 +269,16 @@ export default function IndexPage({
                                   >
                                     {dat["sku"]}
                                   </Chip>
+                                  <Spacer x={3} />
+                                  <Snippet
+                                    className="h-6"
+                                    size="sm"
+                                    variant="flat"
+                                    color="warning"
+                                    hideSymbol
+                                  >
+                                    {dat["vendorItemId"]}
+                                  </Snippet>
                                 </div>
                                 <Spacer y={4} />
                                 <Divider />
