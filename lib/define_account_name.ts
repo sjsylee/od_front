@@ -10,6 +10,8 @@ export function define_account_name(account: string) {
     full_name = "🍎 리손";
   } else if (account == "O") {
     full_name = "🍉 오금";
+  } else if (account == "DB") {
+    full_name = "🫐 동반";
   } else {
     full_name = "";
   }
