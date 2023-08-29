@@ -21,8 +21,10 @@ function count_order(store_object: any) {
   let total = 0;
   const stores = ["CP", "SS", "ST", "IP", "AU", "GM", "LO"];
   stores.map((store) => {
-    let num = store_object[store].length;
-    total += num;
+    try {
+      let num = store_object[store].length;
+      total += num;
+    } catch (e) {}
   });
   return total;
 }
@@ -84,7 +86,7 @@ export default function IndexPage({
                     color="secondary"
                     variant="faded"
                   >
-                    {act_name}
+                    {act_name == "DB" ? "B" : act_name}
                   </Chip>
                   <Spacer x={1} />
                   <Chip
@@ -155,9 +157,6 @@ export default function IndexPage({
                           key={index}
                           aria-label={store}
                           title={store_full_name(store)}
-                          isDisabled={
-                            account[act_name][store].length > 0 ? false : true
-                          }
                           startContent={
                             <div className="flex items-center">
                               <Image
