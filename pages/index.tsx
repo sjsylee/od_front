@@ -16,6 +16,15 @@ import { define_account_name } from "@/lib/define_account_name";
 import { gen_store_img_link_local, store_full_name } from "@/lib/store_func";
 import { SP } from "next/dist/shared/lib/utils";
 import Head from "next/head";
+import * as XLSX from "xlsx";
+
+function exportWorksheet(f_n: string, json: any[], type: string) {
+  let myFile = `${f_n}.${type}`;
+  let myWorkSheet = XLSX.utils.json_to_sheet(json);
+  let myWorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(myWorkBook, myWorkSheet, "0");
+  XLSX.writeFile(myWorkBook, myFile);
+}
 
 function count_order(store_object: any) {
   let total = 0;
@@ -27,6 +36,36 @@ function count_order(store_object: any) {
     } catch (e) {}
   });
   return total;
+}
+
+function unzip(t_d: any[]) {
+  const total: any[] = [];
+  t_d.map((d) => {
+    const d_1: any = Object.values(d)[0];
+    console.log(d_1);
+
+    for (let key in d_1 as any) {
+      if (d_1.hasOwnProperty(key)) {
+        let value = d_1[key];
+
+        if (value.length > 0) {
+          total.push(...value);
+        }
+      }
+    }
+  });
+
+  return total.map((d) => {
+    return {
+      계정: d["account"],
+      스토어: d["store"],
+      상품명: d["vendorItemName"],
+      구매수량: d["shippingCount"],
+      상품번호: d["vendorItemId"],
+      SKU: d["sku"],
+      주문번호: d["orderId"],
+    };
+  });
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -64,12 +103,26 @@ export default function IndexPage({
       </Head>
       <div className="m-3">
         <Spacer y={1} />
-        <div id="top" className="flex flex-row items-center gap-3">
+        <div id="top" className="flex flex-row items-center gap-4">
           <p className="text-xl lg:text-2xl">총 주문개수:</p>
           <h1 className="text-green-400 font-extrabold text-4xl lg:text-5xl">
             {totalOrdNum}
           </h1>
+          <Button
+            className="inset-y-0 right-0"
+            color="success"
+            variant="faded"
+            size="md"
+            onClick={() => {
+              console.log(totalData);
+
+              exportWorksheet("주문수집 데이터", unzip(totalData), "xlsx");
+            }}
+          >
+            🍥 엑셀로 출력
+          </Button>
         </div>
+
         <Divider className="my-4" />
         <Spacer y={1} />
         <div className="items-center grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
