@@ -9,7 +9,7 @@ import {
   AccordionItem,
   Image,
   Chip,
-  Snippet,
+  Snippet
 } from "@nextui-org/react";
 import "boxicons/css/boxicons.min.css";
 import { define_account_name } from "@/lib/define_account_name";
@@ -59,11 +59,12 @@ function unzip(t_d: any[]) {
     return {
       계정: d["account"],
       스토어: d["store"],
-      상품명: d["vendorItemName"],
       구매수량: d["shippingCount"],
       상품번호: d["vendorItemId"],
+      비고: "",
+      상품명: d["vendorItemName"],
       SKU: d["sku"],
-      주문번호: d["orderId"],
+      주문번호: d["orderId"]
     };
   });
 }
@@ -73,16 +74,16 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const check_data = await fetchJson(`${CMS_URL}/get_total_order`, {
     method: "GET",
     headers: {
-      accept: "application/json",
-    },
+      accept: "application/json"
+    }
   });
 
   return {
-    props: { check_data },
+    props: { check_data }
   };
 };
 export default function IndexPage({
-  check_data,
+  check_data
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [totalOrdNum, setTotalOrdNum] = useState<number>(check_data[0]);
   const [totalData, setTotalData] = useState<any[]>(check_data[1]);
@@ -92,7 +93,7 @@ export default function IndexPage({
     element?.scrollIntoView({
       behavior: "smooth",
       block: "end",
-      inline: "nearest",
+      inline: "nearest"
     });
   };
 
