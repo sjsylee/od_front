@@ -9,12 +9,12 @@ import {
   AccordionItem,
   Image,
   Chip,
-  Snippet
+  Snippet,
+  Link,
 } from "@nextui-org/react";
 import "boxicons/css/boxicons.min.css";
 import { define_account_name } from "@/lib/define_account_name";
 import { gen_store_img_link_local, store_full_name } from "@/lib/store_func";
-import { SP } from "next/dist/shared/lib/utils";
 import Head from "next/head";
 import * as XLSX from "xlsx";
 
@@ -64,36 +64,43 @@ function unzip(t_d: any[]) {
       비고: "",
       상품명: d["vendorItemName"],
       SKU: d["sku"],
-      주문번호: d["orderId"]
+      주문번호: d["orderId"],
     };
   });
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const CMS_URL = process.env.CMS_URL;
+  const CMS_URL = "http://127.0.0.1:8000";
   const check_data = await fetchJson(`${CMS_URL}/get_total_order`, {
     method: "GET",
     headers: {
-      accept: "application/json"
-    }
+      accept: "application/json",
+    },
   });
 
   return {
-    props: { check_data }
+    props: { check_data },
   };
 };
 export default function IndexPage({
-  check_data
+  check_data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [totalOrdNum, setTotalOrdNum] = useState<number>(check_data[0]);
-  const [totalData, setTotalData] = useState<any[]>(check_data[1]);
+  const [totalData, setTotalData] = useState<any[]>(
+    check_data[1].map((d: any) => {
+      return {
+        ...d,
+        isExtra: false,
+      };
+    })
+  );
 
   const scrolltoHash = (element_id: string) => {
     const element = document.getElementById(element_id);
     element?.scrollIntoView({
       behavior: "smooth",
       block: "end",
-      inline: "nearest"
+      inline: "nearest",
     });
   };
 
@@ -184,7 +191,7 @@ export default function IndexPage({
                     key={"p " + Object.keys(account)[0]}
                     className="text-lg lg:text-2xl font-bold"
                   >
-                    {define_account_name(Object.keys(account)[0]) + ":"}
+                    {define_account_name(act_name) + ":"}
                   </p>
                   <Spacer x={5} />
                   {count_order(account[act_name]) > 0 && (
@@ -323,6 +330,31 @@ export default function IndexPage({
                                     {dat["sku"]}
                                   </Chip>
                                   <Spacer x={3} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="default"
+                                    variant="solid"
+                                  >
+                                    링크
+                                  </Chip>
+                                  <Spacer x={1} />
+                                  <Link
+                                    isExternal
+                                    showAnchorIcon
+                                    // href={dat["fst_link"]}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      window.open(dat["fst_link"], "_blank");
+                                    }}
+                                  >
+                                    {/* <a
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    ></a> */}
+                                  </Link>
+
+                                  <Spacer x={3} />
                                   <Snippet
                                     className="h-6"
                                     size="sm"
@@ -332,6 +364,89 @@ export default function IndexPage({
                                   >
                                     {dat["vendorItemId"]}
                                   </Snippet>
+                                </div>
+                                <Spacer y={2} />
+                                <div className="flex items-center">
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="default"
+                                    variant="solid"
+                                  >
+                                    원가
+                                  </Chip>
+                                  <Spacer x={1} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="primary"
+                                    variant="dot"
+                                  >
+                                    {dat["unit_price"]}
+                                  </Chip>
+                                  <Spacer x={3} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="default"
+                                    variant="solid"
+                                  >
+                                    구매수량
+                                  </Chip>
+                                  <Spacer x={1} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color={
+                                      dat["order_qty"] > 1
+                                        ? "danger"
+                                        : "success"
+                                    }
+                                    variant="flat"
+                                  >
+                                    {dat["order_qty"]}
+                                  </Chip>
+                                  <Spacer x={3} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="default"
+                                    variant="solid"
+                                  >
+                                    패키지
+                                  </Chip>
+                                  <Spacer x={1} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    variant="bordered"
+                                  >
+                                    {dat["package"]}
+                                  </Chip>
+                                </div>
+                                <Spacer y={2} />
+                                <div className="flex items-center">
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="default"
+                                    variant="solid"
+                                  >
+                                    마진
+                                  </Chip>
+                                  <Spacer x={1} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="primary"
+                                    avatar={<>💵 </>}
+                                    variant="faded"
+                                  >
+                                    {(
+                                      dat[`${store.toLowerCase()}_margin`] *
+                                      dat["shippingCount"]
+                                    ).toLocaleString() + "원"}
+                                  </Chip>
                                 </div>
                                 <Spacer y={4} />
                                 <Divider />
