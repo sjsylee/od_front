@@ -275,17 +275,23 @@ export default function IndexPage({
                                     radius="sm"
                                     color="default"
                                     variant="solid"
+                                    style={{ minWidth: "41px" }}
                                   >
-                                    판매가
+                                    마진
                                   </Chip>
                                   <Spacer x={1} />
                                   <Chip
                                     size="sm"
                                     radius="sm"
-                                    color="success"
+                                    color="primary"
+                                    avatar={<>💵 </>}
                                     variant="faded"
+                                    style={{ minWidth: "95px" }}
                                   >
-                                    {dat["totalPrice"]}
+                                    {(
+                                      dat[`${store.toLowerCase()}_margin`] *
+                                      dat["shippingCount"]
+                                    ).toLocaleString() + "원"}
                                   </Chip>
                                   <Spacer x={3} />
                                   <Chip
@@ -293,6 +299,7 @@ export default function IndexPage({
                                     radius="sm"
                                     color="default"
                                     variant="solid"
+                                    style={{ minWidth: "41px" }}
                                   >
                                     개수
                                   </Chip>
@@ -308,6 +315,26 @@ export default function IndexPage({
                                     variant="bordered"
                                   >
                                     {dat["shippingCount"]}
+                                  </Chip>
+                                  <Spacer x={3} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="default"
+                                    variant="solid"
+                                    style={{ minWidth: "53px" }}
+                                  >
+                                    판매가
+                                  </Chip>
+                                  <Spacer x={1} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="success"
+                                    variant="faded"
+                                    style={{ minWidth: "79px" }}
+                                  >
+                                    {dat["totalPrice"].toLocaleString() + "원"}
                                   </Chip>
                                 </div>
                                 <Spacer y={2} />
@@ -335,6 +362,7 @@ export default function IndexPage({
                                     radius="sm"
                                     color="default"
                                     variant="solid"
+                                    style={{ minWidth: "41px" }}
                                   >
                                     링크
                                   </Chip>
@@ -372,6 +400,7 @@ export default function IndexPage({
                                     radius="sm"
                                     color="default"
                                     variant="solid"
+                                    style={{ minWidth: "41px" }}
                                   >
                                     원가
                                   </Chip>
@@ -390,6 +419,7 @@ export default function IndexPage({
                                     radius="sm"
                                     color="default"
                                     variant="solid"
+                                    style={{ minWidth: "66px" }}
                                   >
                                     구매수량
                                   </Chip>
@@ -412,6 +442,7 @@ export default function IndexPage({
                                     radius="sm"
                                     color="default"
                                     variant="solid"
+                                    style={{ minWidth: "53px" }}
                                   >
                                     패키지
                                   </Chip>
@@ -422,30 +453,6 @@ export default function IndexPage({
                                     variant="bordered"
                                   >
                                     {dat["package"]}
-                                  </Chip>
-                                </div>
-                                <Spacer y={2} />
-                                <div className="flex items-center">
-                                  <Chip
-                                    size="sm"
-                                    radius="sm"
-                                    color="default"
-                                    variant="solid"
-                                  >
-                                    마진
-                                  </Chip>
-                                  <Spacer x={1} />
-                                  <Chip
-                                    size="sm"
-                                    radius="sm"
-                                    color="primary"
-                                    avatar={<>💵 </>}
-                                    variant="faded"
-                                  >
-                                    {(
-                                      dat[`${store.toLowerCase()}_margin`] *
-                                      dat["shippingCount"]
-                                    ).toLocaleString() + "원"}
                                   </Chip>
                                 </div>
                                 <Spacer y={4} />
