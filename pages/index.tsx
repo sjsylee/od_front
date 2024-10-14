@@ -286,7 +286,7 @@ export default function IndexPage({
                                     color="primary"
                                     avatar={<>💵 </>}
                                     variant="faded"
-                                    style={{ minWidth: "95px" }}
+                                    style={{ minWidth: "103px" }}
                                   >
                                     {(
                                       dat[`${store.toLowerCase()}_margin`] *
@@ -332,7 +332,7 @@ export default function IndexPage({
                                     radius="sm"
                                     color="success"
                                     variant="faded"
-                                    style={{ minWidth: "79px" }}
+                                    style={{ minWidth: "89px" }}
                                   >
                                     {dat["totalPrice"].toLocaleString() + "원"}
                                   </Chip>
