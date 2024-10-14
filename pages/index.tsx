@@ -70,7 +70,7 @@ function unzip(t_d: any[]) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const CMS_URL = "http://127.0.0.1:8000";
+  const CMS_URL = process.env.CMS_URL;
   const check_data = await fetchJson(`${CMS_URL}/get_total_order`, {
     method: "GET",
     headers: {
