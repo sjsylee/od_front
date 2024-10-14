@@ -419,9 +419,29 @@ export default function IndexPage({
                                     radius="sm"
                                     color="default"
                                     variant="solid"
-                                    style={{ minWidth: "66px" }}
+                                    style={{ minWidth: "53px" }}
                                   >
-                                    구매수량
+                                    배송비
+                                  </Chip>
+                                  <Spacer x={1} />
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="primary"
+                                    variant="dot"
+                                  >
+                                    {dat["local_trans_fee"]}
+                                  </Chip>
+                                  <Spacer x={3} />
+
+                                  <Chip
+                                    size="sm"
+                                    radius="sm"
+                                    color="default"
+                                    variant="solid"
+                                    style={{ minWidth: "43px" }}
+                                  >
+                                    QTY
                                   </Chip>
                                   <Spacer x={1} />
                                   <Chip
@@ -442,9 +462,9 @@ export default function IndexPage({
                                     radius="sm"
                                     color="default"
                                     variant="solid"
-                                    style={{ minWidth: "53px" }}
+                                    style={{ minWidth: "23px" }}
                                   >
-                                    패키지
+                                    P
                                   </Chip>
                                   <Spacer x={1} />
                                   <Chip
