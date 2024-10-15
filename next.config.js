@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
+
+const CMS_URL = process.env.CMS_URL;
+
 const nextConfig = {
   reactStrictMode: true,
   async rewrites() {
     return [
       {
-        source: "/api/get_data_by_sku/:sku",
-        destination: "http://127.0.0.1:8000/get_data_by_sku/:sku",
+        source: "/api/order_confirm/:trans_id/:m_prd_id",
+        destination: `${CMS_URL}/order_confirm/:trans_id/:m_prd_id`,
       },
     ];
   },

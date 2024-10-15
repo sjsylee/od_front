@@ -85,6 +85,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 export default function IndexPage({
   check_data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [totalOrdNum, setTotalOrdNum] = useState<number>(check_data[0]);
   const [totalData, setTotalData] = useState<any[]>(
     check_data[1].map((d: any) => {
@@ -474,6 +475,25 @@ export default function IndexPage({
                                   >
                                     {dat["package"]}
                                   </Chip>
+                                </div>
+                                <Spacer y={2} />
+                                <div className="flex items-center">
+                                  <Button
+                                    className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+                                    isLoading={isLoading}
+                                    onClick={async () => {
+                                      setIsLoading(true);
+                                      console.log(dat);
+
+                                      const res = await fetchJson(
+                                        `/api/order_confirm/${dat["ew_id"]}/${dat["vendorItemId"]}`,
+                                        {}
+                                      );
+                                      setIsLoading(false);
+                                    }}
+                                  >
+                                    발주 확인
+                                  </Button>
                                 </div>
                                 <Spacer y={4} />
                                 <Divider />
