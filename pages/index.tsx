@@ -184,7 +184,7 @@ export default function IndexPage({
         <div className="items-center gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {totalData.map((account) => {
             const act_name = Object.keys(account)[0];
-            const stores = ["CP", "SS", "ST", "IP", "AU", "GM", "LO"];
+            const stores = ["CP", "SS", "ST", "AU", "GM", "LO"];
             return (
               <div key={Object.keys(account)[0]}>
                 <div className="flex items-center">
